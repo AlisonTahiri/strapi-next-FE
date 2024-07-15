@@ -1,17 +1,44 @@
 import { cache } from "react";
-import { articlesQuery } from "./query";
+import { articlesQuery, singleArticlesQuery } from "./query";
 
 const GRAPHQL_API_URL =
   process.env.GRAPHQL_API_URL || "http://localhost:1337/graphql";
+
+const STRAPI_TOKEN = process.env.STRAPI_TOKEN;
 
 async function getArticles() {
   const { data } = await fetch(GRAPHQL_API_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      Authorization: `bearer ${STRAPI_TOKEN}`,
     },
     body: JSON.stringify({
       query: articlesQuery,
+    }),
+    next: { revalidate: 5 },
+  }).then((res) => res.json());
+
+  return data;
+}
+
+// Cache with react cache since this is a post request.
+export const getArticlesData = cache(() => getArticles());
+
+async function getArticleDetails(slug: string) {
+  const variables = {
+    slug,
+  };
+
+  const { data } = await fetch(GRAPHQL_API_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `bearer ${STRAPI_TOKEN}`,
+    },
+    body: JSON.stringify({
+      query: singleArticlesQuery,
+      variables,
     }),
     next: { revalidate: 60 },
   }).then((res) => res.json());
@@ -19,4 +46,7 @@ async function getArticles() {
   return data;
 }
 
-export const getArticlesData = cache(() => getArticles());
+// Cache with react cache since this is a post request.
+export const getSingleArticleData = cache((slug: string) =>
+  getArticleDetails(slug)
+);

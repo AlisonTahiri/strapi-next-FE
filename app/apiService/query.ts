@@ -6,7 +6,6 @@ query {
       attributes {
         title
         description
-        body
         slug
         publishedAt
         cover {
@@ -16,6 +15,52 @@ query {
               name
               width
               height
+              formats
+            }
+          }
+        }
+        author {
+          data {
+            attributes {
+              name
+              profile_pic {
+                data {
+                  attributes {
+                    url
+                    name
+                    width
+                    height
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}`;
+
+const singleArticlesQuery = `#graphql
+query GetArticleDetail($slug:String){
+  articles(filters: {slug: {eq: $slug}}) {
+    data {
+      id
+      attributes {
+        title
+        slug
+        description
+        body
+        createdAt
+        updatedAt
+        cover {
+          data {
+            attributes {
+              alternativeText
+              url
+              width
+              height
+              formats
             }
           }
         }
@@ -42,4 +87,4 @@ query {
   }
 }`;
 
-export { articlesQuery };
+export { articlesQuery, singleArticlesQuery };
