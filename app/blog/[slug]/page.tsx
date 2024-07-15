@@ -7,6 +7,7 @@ import type { SingleArticle } from "@/app/apiService/types";
 import Image from "next/image";
 import Markdown from "react-markdown";
 
+// TODO: Add Metadata
 export default async function SingleArticle({
   params,
 }: {
