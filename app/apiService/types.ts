@@ -97,3 +97,9 @@ export type SingleArticle = {
     };
   };
 };
+
+export type Category = {
+  attributes: {
+    name: string;
+  };
+};

@@ -40,7 +40,7 @@ export default async function SingleArticle({
 }
 
 export async function generateStaticParams() {
-  const articlesData = await getArticlesData();
+  const articlesData = await getArticlesData({});
 
   return articlesData.articles.data.map((article: Article) => ({
     slug: article.attributes.slug,

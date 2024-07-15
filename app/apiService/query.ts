@@ -1,11 +1,12 @@
 const articlesQuery = `#graphql
-query {
-  articles {
+query GetArticles ($categoryName: String) {
+  articles(filters: {category: {name: {eq: $categoryName}}}) {
     data {
       id
       attributes {
         title
         description
+        body
         slug
         publishedAt
         cover {
@@ -23,6 +24,7 @@ query {
           data {
             attributes {
               name
+              bio
               profile_pic {
                 data {
                   attributes {
@@ -33,6 +35,13 @@ query {
                   }
                 }
               }
+            }
+          }
+        }
+        category {
+          data {
+            attributes {
+              name
             }
           }
         }
@@ -87,4 +96,16 @@ query GetArticleDetail($slug:String){
   }
 }`;
 
-export { articlesQuery, singleArticlesQuery };
+const categoriesQuery = `#graphql
+query {
+  categories {
+    data {
+      attributes {
+        name
+      }
+    }
+  }
+}
+`;
+
+export { articlesQuery, singleArticlesQuery, categoriesQuery };

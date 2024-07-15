@@ -1,20 +1,28 @@
-import { getArticlesData } from "./apiService/apiService";
-import { Article } from "./apiService/types";
-import Card from "./components/Card";
-import MainCard from "./components/MainCard";
+import {
+  getArticlesData,
+  getCategoriesData,
+} from "@/app/apiService/apiService";
+import type { Article, Category } from "@/app/apiService/types";
+import Card from "@/app/components/Card";
+import MainCard from "@/app/components/MainCard";
+import React from "react";
 
-// TODO: Add Metadata
-
-export default async function Home() {
-  const articlesData = await getArticlesData({});
+export default async function Category({
+  params: { category },
+}: {
+  params: { category: string };
+}) {
+  const articlesData = await getArticlesData({ categoryName: category });
 
   const firstArticle = articlesData.articles.data[0] as Article;
 
+  console.log(articlesData.articles.data);
+
   return (
-    <main className="prose  max-w-none">
+    <main className="prose max-w-none">
       <section>
         <div className="container max-w-6xl p-6 mx-auto space-y-6 sm:space-y-12">
-          <h1>Welcome to Blogy!</h1>
+          <h1 className="capitalize">{category}</h1>
 
           <MainCard
             description={firstArticle.attributes.description}
@@ -66,4 +74,12 @@ export default async function Home() {
       </section>
     </main>
   );
+}
+
+export async function generateStaticParams() {
+  const categoriesData = await getCategoriesData();
+
+  return categoriesData.categories.data.map((category: Category) => ({
+    category: category.attributes.name,
+  }));
 }
