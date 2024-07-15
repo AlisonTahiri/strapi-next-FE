@@ -3,15 +3,19 @@ import { Article } from "./apiService/types";
 import Card from "./components/Card";
 import MainCard from "./components/MainCard";
 
+// TODO: Add Metadata
+
 export default async function Home() {
   const articlesData = await getArticlesData();
 
   const firstArticle = articlesData.articles.data[0] as Article;
 
   return (
-    <main className="container p-4 mx-auto">
+    <main className="prose max-w-none">
       <section>
         <div className="container max-w-6xl p-6 mx-auto space-y-6 sm:space-y-12">
+          <h1>Welcome to Blogy!</h1>
+
           <MainCard
             description={firstArticle.attributes.description}
             imageAlt={
