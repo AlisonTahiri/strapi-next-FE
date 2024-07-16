@@ -18,7 +18,7 @@ export default async function SingleArticle({
   if (!articleData.articles.data.length)
     return <div>Could not find the article you are looking for.</div>;
 
-  const { author, body, cover, description, publishedAt, slug, title } =
+  const { author, body, cover, description, updatedAt, slug, title } =
     articleData.articles.data[0].attributes as SingleArticle["attributes"];
 
   return (

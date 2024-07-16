@@ -16,8 +16,6 @@ export default async function Category({
 
   const firstArticle = articlesData.articles.data[0] as Article;
 
-  console.log(articlesData.articles.data);
-
   return (
     <main className="prose max-w-none">
       <section>
@@ -41,11 +39,11 @@ export default async function Category({
             }
             slug={firstArticle.attributes.slug}
             title={firstArticle.attributes.title}
-            publishedAt={firstArticle.attributes.publishedAt}
+            updatedAt={firstArticle.attributes.updatedAt}
           />
           <div className="grid justify-center grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
             {articlesData.articles.data.slice(1).map((article: Article) => {
-              const { author, cover, description, publishedAt, slug, title } =
+              const { author, cover, description, updatedAt, slug, title } =
                 article.attributes;
               return (
                 <Card
@@ -57,7 +55,7 @@ export default async function Category({
                   imageSrc={cover.data.attributes.formats.small.url}
                   slug={slug}
                   title={title}
-                  publishedAt={publishedAt}
+                  updatedAt={updatedAt}
                 />
               );
             })}

@@ -4,7 +4,7 @@ export type Article = {
     title: string;
     description: string;
     slug: string;
-    publishedAt: string;
+    updatedAt: string;
     cover: {
       data: {
         attributes: {
@@ -54,7 +54,7 @@ export type SingleArticle = {
     description: string;
     body: string;
     slug: string;
-    publishedAt: string;
+    updatedAt: string;
     cover: {
       data: {
         attributes: {

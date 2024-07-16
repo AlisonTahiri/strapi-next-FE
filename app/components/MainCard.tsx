@@ -9,7 +9,7 @@ type Props = {
   imageAlt: string;
   width: number;
   height: number;
-  publishedAt: string;
+  updatedAt: string;
 };
 
 export default function MainCard({
@@ -17,7 +17,7 @@ export default function MainCard({
   description,
   imageSrc,
   imageAlt,
-  publishedAt,
+  updatedAt,
   slug,
   width,
   height,
@@ -39,7 +39,7 @@ export default function MainCard({
           {title}
         </h3>
 
-        <span className="text-xs dark:text-gray-600">{publishedAt}</span>
+        <span className="text-xs dark:text-gray-600">{updatedAt}</span>
         <p>{description}</p>
       </div>
     </Link>

@@ -7,7 +7,6 @@ const GRAPHQL_API_URL =
 const STRAPI_TOKEN = process.env.STRAPI_TOKEN;
 
 async function getArticles({ categoryName }: { categoryName?: string }) {
-  console.log({ categoryName });
   const { data } = await fetch(GRAPHQL_API_URL, {
     method: "POST",
     headers: {
@@ -18,7 +17,7 @@ async function getArticles({ categoryName }: { categoryName?: string }) {
       query: articlesQuery,
       variables: { categoryName },
     }),
-    next: { revalidate: 5 },
+    next: { revalidate: 2 },
   }).then((res) => res.json());
 
   return data;
@@ -44,7 +43,7 @@ async function getArticleDetails(slug: string) {
       query: singleArticlesQuery,
       variables,
     }),
-    next: { revalidate: 60 },
+    next: { revalidate: 2 },
   }).then((res) => res.json());
 
   return data;
@@ -67,7 +66,7 @@ async function getCategories() {
     body: JSON.stringify({
       query: categoriesQuery,
     }),
-    next: { revalidate: 5 },
+    next: { revalidate: 2 },
   }).then((res) => res.json());
 
   return data;

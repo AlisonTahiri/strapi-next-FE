@@ -1,6 +1,6 @@
 const articlesQuery = `#graphql
 query GetArticles ($categoryName: String) {
-  articles(filters: {category: {name: {eq: $categoryName}}}) {
+  articles(filters: {category: {name: {eq: $categoryName}}}, sort: ["updatedAt:desc"]) {
     data {
       id
       attributes {
@@ -8,7 +8,7 @@ query GetArticles ($categoryName: String) {
         description
         body
         slug
-        publishedAt
+        updatedAt
         cover {
           data {
             attributes {
