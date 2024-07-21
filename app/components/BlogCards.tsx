@@ -4,12 +4,19 @@ import Card from "@/app/components/Card";
 import MainCard from "@/app/components/MainCard";
 import React from "react";
 
-export default async function BlogCards() {
-  const articlesData = await getArticlesData({});
+type Props = {
+  categoryName?: string;
+};
+
+export default async function BlogCards({ categoryName }: Props) {
+  const articlesData = await getArticlesData({ categoryName });
 
   if (!articlesData.articles.data.length)
     return (
-      <div>There are no Articles at this time. Please try again later!</div>
+      <div>
+        There are no Articles {categoryName && `in this category`} at this time.
+        Please try again later!
+      </div>
     );
 
   const firstArticle = articlesData.articles.data[0] as Article;

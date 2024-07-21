@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 
 import BlogCards from "./components/BlogCards";
-import { CardsSkeleton } from "../components/skeletons";
+import { CardsSkeleton } from "./components/skeletons";
 
 // TODO: Add Metadata
 
