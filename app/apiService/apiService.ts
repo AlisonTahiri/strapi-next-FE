@@ -7,6 +7,7 @@ const GRAPHQL_API_URL =
 const STRAPI_TOKEN = process.env.STRAPI_TOKEN;
 
 async function getArticles({ categoryName }: { categoryName?: string }) {
+  await new Promise((resolve) => setTimeout(resolve, 1000));
   const { data } = await fetch(GRAPHQL_API_URL, {
     method: "POST",
     headers: {
@@ -20,6 +21,8 @@ async function getArticles({ categoryName }: { categoryName?: string }) {
     next: { revalidate: 2 },
   }).then((res) => res.json());
 
+  if (data.articles === null)
+    throw new Error("There was an error fetching Articles.");
   return data;
 }
 
