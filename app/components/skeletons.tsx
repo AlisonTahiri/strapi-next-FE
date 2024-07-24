@@ -57,3 +57,24 @@ export function CardsSkeleton() {
     </>
   );
 }
+
+export function SingleArticleSkeleton() {
+  return (
+    <div
+      className={`${shimmer} relative overflow-clip space-y-4 container prose lg:prose-xl w-full p-4 mx-auto bg-gray-200`}
+    >
+      <div className="bg-gray-400 h-16 w-2/3"></div>
+
+      <div className="w-full h-[620px] bg-gray-400" />
+
+      <div className="space-y-4">
+        <div className="bg-gray-400 h-5 w-full"></div>
+        <div className="bg-gray-400 h-5 w-full"></div>
+        <div className="bg-gray-400 h-5 w-full"></div>
+        <div className="bg-gray-400 h-5 w-full"></div>
+        <div className="bg-gray-400 h-5 w-full"></div>
+        <div className="bg-gray-400 h-5 w-full"></div>
+      </div>
+    </div>
+  );
+}

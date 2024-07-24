@@ -7,7 +7,8 @@ const GRAPHQL_API_URL =
 const STRAPI_TOKEN = process.env.STRAPI_TOKEN;
 
 async function getArticles({ categoryName }: { categoryName?: string }) {
-  await new Promise((resolve) => setTimeout(resolve, 1000));
+  await new Promise((resolve) => setTimeout(resolve, 3000));
+  console.log("Fetching articles....");
   const { data } = await fetch(GRAPHQL_API_URL, {
     method: "POST",
     headers: {
@@ -35,7 +36,8 @@ async function getArticleDetails(slug: string) {
   const variables = {
     slug,
   };
-
+  await new Promise((resolve) => setTimeout(resolve, 3000));
+  console.log("Fetching article details....");
   const { data } = await fetch(GRAPHQL_API_URL, {
     method: "POST",
     headers: {
@@ -60,6 +62,8 @@ export const getSingleArticleData = cache((slug: string) =>
 // Categories services ////////////////////////////////////////////////////////////////
 
 async function getCategories() {
+  await new Promise((resolve) => setTimeout(resolve, 3000));
+  console.log("Fetching categories....");
   const { data } = await fetch(GRAPHQL_API_URL, {
     method: "POST",
     headers: {
