@@ -1,4 +1,3 @@
-import { cache } from "react";
 import { articlesQuery, categoriesQuery, singleArticlesQuery } from "./query";
 
 const GRAPHQL_API_URL =
@@ -6,7 +5,11 @@ const GRAPHQL_API_URL =
 
 const STRAPI_TOKEN = process.env.STRAPI_TOKEN;
 
-async function getArticles({ categoryName }: { categoryName?: string }) {
+export async function getArticlesData({
+  categoryName,
+}: {
+  categoryName?: string;
+}) {
   await new Promise((resolve) => setTimeout(resolve, 3000));
   console.log("Fetching articles....");
   const { data } = await fetch(GRAPHQL_API_URL, {
@@ -19,20 +22,13 @@ async function getArticles({ categoryName }: { categoryName?: string }) {
       query: articlesQuery,
       variables: { categoryName },
     }),
-    next: { revalidate: 2 },
+    next: { revalidate: 20 },
   }).then((res) => res.json());
 
-  if (data.articles === null)
-    throw new Error("There was an error fetching Articles.");
   return data;
 }
 
-// Cache with react cache since this is a post request.
-export const getArticlesData = cache(
-  ({ categoryName }: { categoryName?: string }) => getArticles({ categoryName })
-);
-
-async function getArticleDetails(slug: string) {
+export async function getSingleArticleData(slug: string) {
   const variables = {
     slug,
   };
@@ -48,20 +44,13 @@ async function getArticleDetails(slug: string) {
       query: singleArticlesQuery,
       variables,
     }),
-    next: { revalidate: 2 },
+    next: { revalidate: 20 },
   }).then((res) => res.json());
 
   return data;
 }
 
-// Cache with react cache since this is a post request.
-export const getSingleArticleData = cache((slug: string) =>
-  getArticleDetails(slug)
-);
-
-// Categories services ////////////////////////////////////////////////////////////////
-
-async function getCategories() {
+export async function getCategoriesData() {
   await new Promise((resolve) => setTimeout(resolve, 3000));
   console.log("Fetching categories....");
   const { data } = await fetch(GRAPHQL_API_URL, {
@@ -78,6 +67,3 @@ async function getCategories() {
 
   return data;
 }
-
-// Cache with react cache since this is a post request.
-export const getCategoriesData = cache(() => getCategories());
