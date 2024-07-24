@@ -1,8 +1,6 @@
 import { getArticlesData } from "@/app/apiService/apiService";
 import { Article } from "@/app/apiService/types";
 import ArticleDetails from "@/app/components/ArticleDetails";
-import { SingleArticleSkeleton } from "@/app/components/skeletons";
-import { Suspense } from "react";
 
 // TODO: Add Metadata
 export default async function SingleArticle({
@@ -10,11 +8,7 @@ export default async function SingleArticle({
 }: {
   params: { slug: string };
 }) {
-  return (
-    <Suspense fallback={<SingleArticleSkeleton />}>
-      <ArticleDetails slug={params.slug} />
-    </Suspense>
-  );
+  return <ArticleDetails slug={params.slug} />;
 }
 
 export async function generateStaticParams() {

@@ -1,7 +1,6 @@
 import { Suspense } from "react";
 
 import BlogCards from "./components/BlogCards";
-import { CardsSkeleton } from "./components/skeletons";
 
 // TODO: Add Metadata
 
@@ -11,9 +10,7 @@ export default async function Home() {
       <section>
         <div className="container max-w-6xl p-6 mx-auto space-y-6 sm:space-y-12">
           <h1>Welcome to Blogy!</h1>
-          <Suspense fallback={<CardsSkeleton />}>
-            <BlogCards />
-          </Suspense>
+          <BlogCards />
         </div>
       </section>
     </main>
