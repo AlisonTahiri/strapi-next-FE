@@ -1,8 +1,4 @@
-import { Suspense } from "react";
-
 import BlogCards from "./components/BlogCards";
-
-// TODO: Add Metadata
 
 export default async function Home() {
   return (

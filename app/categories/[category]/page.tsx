@@ -1,17 +1,21 @@
 import BlogCards from "@/app/components/BlogCards";
-import {
-  getArticlesData,
-  getCategoriesData,
-} from "@/app/apiService/apiService";
+import { getCategoriesData } from "@/app/apiService/apiService";
 import type { Category } from "@/app/apiService/types";
+import { Metadata } from "next";
 
-import React, { Suspense } from "react";
-
-export default async function Category({
-  params: { category },
-}: {
+type Props = {
   params: { category: string };
-}) {
+};
+
+export function generateMetadata({ params }: Props): Metadata {
+  const { category } = params;
+  return {
+    title: category.charAt(0).toUpperCase() + category.slice(1),
+    description: `Articles from Blogy for the ${params.category} category.`,
+  };
+}
+
+export default async function Category({ params: { category } }: Props) {
   return (
     <main className="prose max-w-none">
       <section>
