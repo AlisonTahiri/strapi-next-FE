@@ -11,7 +11,7 @@ export async function getArticlesData({
   categoryName?: string;
 }) {
   await new Promise((resolve) => setTimeout(resolve, 3000));
-  console.log("Fetching articles....");
+  // console.log("Fetching articles....");
   const { data } = await fetch(GRAPHQL_API_URL, {
     method: "POST",
     headers: {
@@ -33,7 +33,7 @@ export async function getSingleArticleData(slug: string) {
     slug,
   };
   await new Promise((resolve) => setTimeout(resolve, 3000));
-  console.log("Fetching article details....");
+  // console.log("Fetching article details....");
   const { data } = await fetch(GRAPHQL_API_URL, {
     method: "POST",
     headers: {
@@ -52,7 +52,7 @@ export async function getSingleArticleData(slug: string) {
 
 export async function getCategoriesData() {
   await new Promise((resolve) => setTimeout(resolve, 3000));
-  console.log("Fetching categories....");
+  // console.log("Fetching categories....");
   const { data } = await fetch(GRAPHQL_API_URL, {
     method: "POST",
     headers: {
@@ -62,7 +62,7 @@ export async function getCategoriesData() {
     body: JSON.stringify({
       query: categoriesQuery,
     }),
-    next: { revalidate: 2 },
+    next: { revalidate: 20 },
   }).then((res) => res.json());
 
   return data;

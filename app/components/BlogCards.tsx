@@ -3,6 +3,7 @@ import { Article } from "@/app/apiService/types";
 import Card from "@/app/components/Card";
 import MainCard from "@/app/components/MainCard";
 import React from "react";
+import Pagination from "./Pagination";
 
 type Props = {
   categoryName?: string;
@@ -10,7 +11,6 @@ type Props = {
 
 export default async function BlogCards({ categoryName }: Props) {
   const articlesData = await getArticlesData({ categoryName });
-
   if (!articlesData.articles.data.length)
     return (
       <div>
@@ -57,14 +57,7 @@ export default async function BlogCards({ categoryName }: Props) {
           );
         })}
       </div>
-      <div className="flex justify-center">
-        <button
-          type="button"
-          className="px-6 py-3 text-sm rounded-md hover:underline dark:bg-gray-50 dark:text-gray-600"
-        >
-          Load more posts...
-        </button>
-      </div>
+      <Pagination currentPage={2} pageSize={3} totalPages={5} />
     </>
   );
 }
