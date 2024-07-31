@@ -1,4 +1,5 @@
 import { articlesQuery, categoriesQuery, singleArticlesQuery } from "./query";
+import { ArticlesDataType, SingleArticleDataType } from "./types";
 
 const GRAPHQL_API_URL =
   process.env.GRAPHQL_API_URL || "http://localhost:1337/graphql";
@@ -13,7 +14,7 @@ export async function getArticlesData({
   categoryName?: string;
   page?: number;
   pageSize?: number;
-}) {
+}): Promise<ArticlesDataType> {
   await new Promise((resolve) => setTimeout(resolve, 3000));
   // console.log("Fetching articles....");
   const { data } = await fetch(GRAPHQL_API_URL, {
@@ -32,7 +33,9 @@ export async function getArticlesData({
   return data;
 }
 
-export async function getSingleArticleData(slug: string) {
+export async function getSingleArticleData(
+  slug: string
+): Promise<SingleArticleDataType> {
   const variables = {
     slug,
   };

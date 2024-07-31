@@ -1,5 +1,4 @@
 import { getArticlesData } from "@/app/apiService/apiService";
-import { Article, type PaginationType } from "@/app/apiService/types";
 import Card from "@/app/components/Card";
 import MainCard from "@/app/components/MainCard";
 import React from "react";
@@ -25,9 +24,9 @@ export default async function BlogCards({
         Please try again later!
       </div>
     );
-  const pagination = articlesData.articles.meta.pagination as PaginationType;
+  const pagination = articlesData.articles.meta.pagination;
 
-  const firstArticle = articlesData.articles.data[0] as Article;
+  const firstArticle = articlesData.articles.data[0];
   return (
     <>
       <MainCard
@@ -47,7 +46,7 @@ export default async function BlogCards({
         updatedAt={firstArticle.attributes.updatedAt}
       />
       <div className="grid justify-center grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {articlesData.articles.data.slice(1).map((article: Article) => {
+        {articlesData.articles.data.slice(1).map((article) => {
           const { author, cover, description, updatedAt, slug, title } =
             article.attributes;
           return (

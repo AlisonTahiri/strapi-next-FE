@@ -1,4 +1,4 @@
-export type Article = {
+type Article = {
   id: string;
   attributes: {
     title: string;
@@ -47,7 +47,7 @@ export type Article = {
   };
 };
 
-export type SingleArticle = {
+type SingleArticle = {
   id: string;
   attributes: {
     title: string;
@@ -108,4 +108,17 @@ export type PaginationType = {
   total: number;
   page: number;
   pageCount: number;
+};
+
+export type ArticlesDataType = {
+  articles: {
+    data: Article[];
+    meta: { pagination: PaginationType };
+  };
+};
+
+export type SingleArticleDataType = {
+  articles: {
+    data: SingleArticle[];
+  };
 };

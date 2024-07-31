@@ -2,7 +2,7 @@ import {
   getArticlesData,
   getSingleArticleData,
 } from "@/app/apiService/apiService";
-import { Article, type SingleArticle } from "@/app/apiService/types";
+
 import ArticleDetails from "@/app/components/ArticleDetails";
 import { Metadata } from "next";
 
@@ -15,8 +15,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const articleData = await getSingleArticleData(slug);
 
-  const { author, description, updatedAt, title } = articleData.articles.data[0]
-    .attributes as SingleArticle["attributes"];
+  const { author, description, updatedAt, title } =
+    articleData.articles.data[0].attributes;
 
   return {
     title,
@@ -38,7 +38,7 @@ export default async function SingleArticle({ params }: Props) {
 export async function generateStaticParams() {
   const articlesData = await getArticlesData({});
 
-  return articlesData.articles.data.map((article: Article) => ({
+  return articlesData.articles.data.map((article) => ({
     slug: article.attributes.slug,
   }));
 }
