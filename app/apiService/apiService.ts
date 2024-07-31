@@ -7,8 +7,12 @@ const STRAPI_TOKEN = process.env.STRAPI_TOKEN;
 
 export async function getArticlesData({
   categoryName,
+  page = 1,
+  pageSize = 10,
 }: {
   categoryName?: string;
+  page?: number;
+  pageSize?: number;
 }) {
   await new Promise((resolve) => setTimeout(resolve, 3000));
   // console.log("Fetching articles....");
@@ -20,9 +24,9 @@ export async function getArticlesData({
     },
     body: JSON.stringify({
       query: articlesQuery,
-      variables: { categoryName },
+      variables: { categoryName, pageSize, page },
     }),
-    next: { revalidate: 20 },
+    next: { revalidate: 60 },
   }).then((res) => res.json());
 
   return data;
@@ -44,7 +48,7 @@ export async function getSingleArticleData(slug: string) {
       query: singleArticlesQuery,
       variables,
     }),
-    next: { revalidate: 20 },
+    next: { revalidate: 60 },
   }).then((res) => res.json());
 
   return data;
@@ -62,7 +66,7 @@ export async function getCategoriesData() {
     body: JSON.stringify({
       query: categoriesQuery,
     }),
-    next: { revalidate: 20 },
+    next: { revalidate: 60 },
   }).then((res) => res.json());
 
   return data;

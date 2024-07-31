@@ -103,3 +103,9 @@ export type Category = {
     name: string;
   };
 };
+
+export type PaginationType = {
+  total: number;
+  page: number;
+  pageCount: number;
+};

@@ -1,6 +1,6 @@
 const articlesQuery = `#graphql
-query GetArticles ($categoryName: String) {
-  articles(filters: {category: {name: {eq: $categoryName}}}, sort: ["updatedAt:desc"]) {
+query GetArticles ($categoryName: String, $page:Int, $pageSize: Int) {
+  articles(filters: {category: {name: {eq: $categoryName}}}, sort: ["updatedAt:desc"], pagination: {page: $page, pageSize:$pageSize}) {
     data {
       id
       attributes {
@@ -45,6 +45,13 @@ query GetArticles ($categoryName: String) {
             }
           }
         }
+      }
+    }
+    meta {
+      pagination {
+        total
+        page
+        pageCount
       }
     }
   }

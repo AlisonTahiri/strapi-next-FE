@@ -15,7 +15,7 @@ export default async function Nav() {
           {categoriesData.categories.data.map((category: Category) => (
             <Link
               key={category.attributes.name}
-              href={"/categories/" + category.attributes.name}
+              href={"/categories/" + category.attributes.name + "/1"}
             >
               <li className="cursor-pointer p-2 hover:bg-gray-300 capitalize">
                 {category.attributes.name}

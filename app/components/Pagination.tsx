@@ -3,13 +3,13 @@ import Link from "next/link";
 import React from "react";
 
 type Props = {
-  currentPage: number;
+  currentPage?: number;
   totalPages: number;
   pageSize: number;
 };
 
 export default function Pagination({
-  currentPage,
+  currentPage = 1,
   pageSize,
   totalPages,
 }: Props) {
@@ -22,7 +22,7 @@ export default function Pagination({
       <ul className="flex gap-px items-center justify-center text-sm my-0">
         <li className="list-none ps-0">
           <Link
-            href={`/${currentPage - 1}`}
+            href={`${currentPage - 1}`}
             className={clsx(
               `bg-gray-300 no-underline px-3 py-2 rounded-l-md hover:bg-gray-500 hover:text-gray-50 duration-200`,
               !Boolean(currentPage - 1) && "pointer-events-none opacity-30"
@@ -33,7 +33,7 @@ export default function Pagination({
         </li>
         <li className={clsx("list-none ps-0", currentPage - 2 < 1 && "hidden")}>
           <Link
-            href={`/${currentPage - 2}`}
+            href={`${currentPage - 2}`}
             className="bg-gray-300  no-underline px-3 py-2 hover:bg-gray-500 hover:text-gray-50 duration-200"
           >
             {currentPage - 2}
@@ -42,7 +42,7 @@ export default function Pagination({
 
         <li className={clsx("list-none ps-0", currentPage - 1 < 1 && "hidden")}>
           <Link
-            href={`/${currentPage - 1}`}
+            href={`${currentPage - 1}`}
             className="bg-gray-300  no-underline px-3 py-2 hover:bg-gray-500 hover:text-gray-50 duration-200"
           >
             {currentPage - 1}
@@ -62,7 +62,7 @@ export default function Pagination({
           )}
         >
           <Link
-            href={`/${currentPage + 1}`}
+            href={`${currentPage + 1}`}
             className="bg-gray-300  no-underline px-3 py-2 hover:bg-gray-500 hover:text-gray-50 duration-200"
           >
             {currentPage + 1}
@@ -76,7 +76,7 @@ export default function Pagination({
           )}
         >
           <Link
-            href={`/${currentPage + 2}`}
+            href={`${currentPage + 2}`}
             className="bg-gray-300  no-underline px-3 py-2 hover:bg-gray-500 hover:text-gray-50 duration-200"
           >
             {currentPage + 2}
@@ -85,7 +85,7 @@ export default function Pagination({
 
         <li className="list-none ps-0">
           <Link
-            href="#"
+            href={(currentPage + 1).toString()}
             className={clsx(
               `bg-gray-300 no-underline px-3 py-2 rounded-r-md hover:bg-gray-500 hover:text-gray-50 duration-200`,
               !Boolean(currentPage + 1 <= totalPages) &&

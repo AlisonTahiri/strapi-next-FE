@@ -1,5 +1,5 @@
 import { getArticlesData } from "@/app/apiService/apiService";
-import { Article } from "@/app/apiService/types";
+import { Article, type PaginationType } from "@/app/apiService/types";
 import Card from "@/app/components/Card";
 import MainCard from "@/app/components/MainCard";
 import React from "react";
@@ -7,10 +7,17 @@ import Pagination from "./Pagination";
 
 type Props = {
   categoryName?: string;
+  page: number;
+  pageSize: number;
 };
 
-export default async function BlogCards({ categoryName }: Props) {
-  const articlesData = await getArticlesData({ categoryName });
+export default async function BlogCards({
+  categoryName,
+  page,
+  pageSize,
+}: Props) {
+  const articlesData = await getArticlesData({ categoryName, page, pageSize });
+
   if (!articlesData.articles.data.length)
     return (
       <div>
@@ -18,6 +25,7 @@ export default async function BlogCards({ categoryName }: Props) {
         Please try again later!
       </div>
     );
+  const pagination = articlesData.articles.meta.pagination as PaginationType;
 
   const firstArticle = articlesData.articles.data[0] as Article;
   return (
@@ -57,7 +65,13 @@ export default async function BlogCards({ categoryName }: Props) {
           );
         })}
       </div>
-      <Pagination currentPage={2} pageSize={3} totalPages={5} />
+      {pagination.total > pageSize && (
+        <Pagination
+          currentPage={page}
+          pageSize={pageSize}
+          totalPages={pagination.pageCount}
+        />
+      )}
     </>
   );
 }
