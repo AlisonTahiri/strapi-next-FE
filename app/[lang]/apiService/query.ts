@@ -1,6 +1,6 @@
 const articlesQuery = `#graphql
-query GetArticles ($categoryName: String, $page:Int, $pageSize: Int) {
-  articles(filters: {category: {name: {eq: $categoryName}}}, sort: ["updatedAt:desc"], pagination: {page: $page, pageSize:$pageSize}) {
+query GetArticles ($categoryName: String, $locale: I18NLocaleCode $page:Int, $pageSize: Int) {
+  articles(locale: $locale ,filters: {category: {name: {eq: $categoryName}}}, sort: ["updatedAt:desc"], pagination: {page: $page, pageSize:$pageSize}) {
     data {
       id
       attributes {
@@ -9,6 +9,15 @@ query GetArticles ($categoryName: String, $page:Int, $pageSize: Int) {
         body
         slug
         updatedAt
+        locale
+        localizations {
+          data {
+            attributes {
+              slug
+              locale
+            }
+          }
+        }
         cover {
           data {
             attributes {
@@ -58,8 +67,8 @@ query GetArticles ($categoryName: String, $page:Int, $pageSize: Int) {
 }`;
 
 const singleArticlesQuery = `#graphql
-query GetArticleDetail($slug:String){
-  articles(filters: {slug: {eq: $slug}}) {
+query GetArticleDetail ($slug:String, $locale:I18NLocaleCode){
+  articles(filters: {slug: {eq: $slug}}, locale:$locale) {
     data {
       id
       attributes {
@@ -69,6 +78,14 @@ query GetArticleDetail($slug:String){
         body
         createdAt
         updatedAt
+        localizations {
+          data {
+            attributes {
+              slug
+              locale
+            }
+          }
+        }
         cover {
           data {
             attributes {
@@ -76,7 +93,7 @@ query GetArticleDetail($slug:String){
               url
               width
               height
-              formats
+             formats
             }
           }
         }
@@ -104,15 +121,27 @@ query GetArticleDetail($slug:String){
 }`;
 
 const categoriesQuery = `#graphql
-query {
-  categories {
+query GetCategories ($locale: I18NLocaleCode) {
+  categories (locale: $locale) {
     data {
       attributes {
         name
       }
     }
   }
-}
-`;
+}`;
 
-export { articlesQuery, singleArticlesQuery, categoriesQuery };
+const localesQuery = `#graphql
+query GetLocales {
+  i18NLocales {
+    data {
+      id
+      attributes {
+        name
+        code
+      }
+    }
+  }
+}`;
+
+export { articlesQuery, singleArticlesQuery, categoriesQuery, localesQuery };

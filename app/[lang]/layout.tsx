@@ -1,7 +1,9 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import "./globals.css";
+import "../globals.css";
 import Nav from "./components/Nav";
+import { LocaleCode } from "./apiService/types";
+import { getLocalesData } from "./apiService/apiService";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -18,17 +20,27 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
+  params,
+}: {
   children: React.ReactNode;
-}>) {
+  params: { lang: LocaleCode };
+}) {
   return (
-    <html lang="en">
+    <html lang={params.lang}>
       <body className={inter.className}>
-        <Nav />
+        <Nav lang={params.lang} />
         {/* Div below compensate for nav height */}
         <div className="h-[72px]" />
         {children}
       </body>
     </html>
   );
+}
+
+export async function generateStaticParams() {
+  const localesData = await getLocalesData();
+
+  return localesData.i18NLocales.data.map((locale) => ({
+    lang: locale.attributes.code,
+  }));
 }

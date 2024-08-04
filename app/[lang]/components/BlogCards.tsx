@@ -1,21 +1,29 @@
-import { getArticlesData } from "@/app/apiService/apiService";
-import Card from "@/app/components/Card";
-import MainCard from "@/app/components/MainCard";
+import { getArticlesData } from "@/app/[lang]/apiService/apiService";
+import Card from "@/app/[lang]/components/Card";
+import MainCard from "@/app/[lang]/components/MainCard";
 import React from "react";
 import Pagination from "./Pagination";
+import { LocaleCode } from "../apiService/types";
 
 type Props = {
   categoryName?: string;
   page: number;
   pageSize: number;
+  locale: LocaleCode;
 };
 
 export default async function BlogCards({
   categoryName,
+  locale,
   page,
   pageSize,
 }: Props) {
-  const articlesData = await getArticlesData({ categoryName, page, pageSize });
+  const articlesData = await getArticlesData({
+    categoryName,
+    page,
+    pageSize,
+    locale,
+  });
 
   if (!articlesData.articles.data.length)
     return (
@@ -41,6 +49,7 @@ export default async function BlogCards({
         imageSrc={
           firstArticle.attributes.cover.data.attributes.formats.medium.url
         }
+        locale={locale}
         slug={firstArticle.attributes.slug}
         title={firstArticle.attributes.title}
         updatedAt={firstArticle.attributes.updatedAt}
@@ -57,6 +66,7 @@ export default async function BlogCards({
               width={cover.data.attributes.formats.small.width}
               height={cover.data.attributes.formats.small.height}
               imageSrc={cover.data.attributes.formats.small.url}
+              locale={locale}
               slug={slug}
               title={title}
               updatedAt={updatedAt}

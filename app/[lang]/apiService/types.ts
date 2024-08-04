@@ -5,6 +5,15 @@ type Article = {
     description: string;
     slug: string;
     updatedAt: string;
+    locale: LocaleCode;
+    localizations: {
+      data: {
+        attributes: {
+          slug: string;
+          locale: LocaleCode;
+        };
+      };
+    };
     cover: {
       data: {
         attributes: {
@@ -55,6 +64,14 @@ type SingleArticle = {
     body: string;
     slug: string;
     updatedAt: string;
+    localizations: {
+      data: {
+        attributes: {
+          slug: string;
+          locale: string;
+        };
+      }[];
+    };
     cover: {
       data: {
         attributes: {
@@ -120,5 +137,19 @@ export type ArticlesDataType = {
 export type SingleArticleDataType = {
   articles: {
     data: SingleArticle[];
+  };
+};
+
+export type LocaleCode = "en" | "sq";
+
+export type Locales = {
+  i18NLocales: {
+    data: {
+      id: string;
+      attributes: {
+        name: string;
+        code: LocaleCode;
+      };
+    }[];
   };
 };
