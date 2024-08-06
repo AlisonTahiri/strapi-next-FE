@@ -4,6 +4,7 @@ import MainCard from "@/app/[lang]/components/MainCard";
 import React from "react";
 import Pagination from "./Pagination";
 import { LocaleCode } from "../apiService/types";
+import { formatDate } from "@/app/utils/formatDate";
 
 type Props = {
   categoryName?: string;
@@ -52,7 +53,10 @@ export default async function BlogCards({
         locale={locale}
         slug={firstArticle.attributes.slug}
         title={firstArticle.attributes.title}
-        updatedAt={firstArticle.attributes.updatedAt}
+        updatedAt={formatDate({
+          locale,
+          date: new Date(firstArticle.attributes.updatedAt),
+        })}
       />
       <div className="grid justify-center grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {articlesData.articles.data.slice(1).map((article) => {
@@ -69,14 +73,17 @@ export default async function BlogCards({
               locale={locale}
               slug={slug}
               title={title}
-              updatedAt={updatedAt}
+              updatedAt={formatDate({
+                locale,
+                date: new Date(updatedAt),
+              })}
             />
           );
         })}
       </div>
       {pagination.total > pageSize && (
         <Pagination
-          currentPage={page}
+          currentPage={page || 1}
           pageSize={pageSize}
           totalPages={pagination.pageCount}
         />

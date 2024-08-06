@@ -2,31 +2,40 @@ import React from "react";
 import BlogCards from "../components/BlogCards";
 import { getArticlesData, getLocalesData } from "../apiService/apiService";
 import { LocaleCode } from "../apiService/types";
+import Nav from "../components/Nav";
+import { LocalesLinks } from "../components/LanguagesPicker";
 
 const pageSize = Number(process.env.HOMEPAGE_SIZE) || 9;
 
-export default function HomePage({
-  params,
+export default async function HomePage({
+  params: { lang, page },
 }: {
   params: { page: string; lang: LocaleCode };
 }) {
+  const localesData = await getLocalesData();
+
+  const localesLinks: LocalesLinks = localesData.i18NLocales.data
+    .filter((locale) => !(locale.attributes.code === lang)) // remove current locale from link
+    .map((locale) => ({
+      locale: locale.attributes.code,
+      href: `/${locale.attributes.code}/1`, // redirect to first page for better UX.
+    }));
+
   return (
-    <main className="prose  max-w-none">
-      <section>
-        <div className="container max-w-6xl p-6 mx-auto space-y-6 sm:space-y-12">
-          <h1>
-            {params.lang === "en"
-              ? "Welcome to Blogy!"
-              : "Miresevini ne Blogy!"}
-          </h1>
-          <BlogCards
-            page={Number(params.page)}
-            pageSize={pageSize}
-            locale={params.lang}
-          />
-        </div>
-      </section>
-    </main>
+    <>
+      <Nav lang={lang} localesLinks={localesLinks} />
+
+      <main className="prose  max-w-none">
+        <section>
+          <div className="container max-w-6xl p-6 mx-auto space-y-6 sm:space-y-12">
+            <h1>
+              {lang === "en" ? "Welcome to Blogy!" : "Miresevini ne Blogy!"}
+            </h1>
+            <BlogCards page={Number(page)} pageSize={pageSize} locale={lang} />
+          </div>
+        </section>
+      </main>
+    </>
   );
 }
 

@@ -1,32 +1,27 @@
 import Link from "next/link";
 import React from "react";
-import { getCategoriesData } from "../apiService/apiService";
-import { Category, LocaleCode } from "../apiService/types";
-import { getLocalesData } from "../apiService/apiService";
+import { LocaleCode } from "../apiService/types";
+import CategoriesPicker from "./CategoriesPicker";
+import LanguagesPicker, { LocalesLinks } from "./LanguagesPicker";
 
-import LanguagePicker from "./LanguagePicker";
-
-export default async function Nav({ lang }: { lang: LocaleCode }) {
-  const categoriesData = await getCategoriesData({ locale: lang });
-  const localesData = await getLocalesData();
+export default function Nav({
+  lang,
+  localesLinks,
+}: {
+  lang: LocaleCode;
+  localesLinks: LocalesLinks;
+}) {
   return (
-    <div className="bg-gray-200 fixed w-full">
-      <nav className="flex justify-between py-4 px-6 max-w-6xl mx-auto items-center">
-        <Link href={"/" + lang}>LOGO</Link>
-        {/* <LanguagePicker localesData={localesData} /> */}
-        <ul className="flex gap-2">
-          {categoriesData.categories.data.map((category: Category) => (
-            <li key={category.attributes.name} className="capitalize">
-              <Link
-                href={`/${lang}/categories/${category.attributes.name}/1`}
-                className="p-3 hover:bg-gray-300 rounded"
-              >
-                {category.attributes.name}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      </nav>
-    </div>
+    <>
+      <div className="bg-gray-200 fixed w-full">
+        <nav className="flex justify-between py-4 px-6 max-w-6xl mx-auto items-center">
+          <Link href={"/" + lang}>LOGO</Link>
+          <LanguagesPicker localesLinks={localesLinks} />
+          <CategoriesPicker lang={lang} />
+        </nav>
+      </div>
+      {/* Div below compensate for nav height */}
+      <div className="h-[72px]" />
+    </>
   );
 }

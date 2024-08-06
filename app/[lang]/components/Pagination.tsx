@@ -3,13 +3,13 @@ import Link from "next/link";
 import React from "react";
 
 type Props = {
-  currentPage?: number;
+  currentPage: number;
   totalPages: number;
   pageSize: number;
 };
 
 export default function Pagination({
-  currentPage = 1,
+  currentPage,
   pageSize,
   totalPages,
 }: Props) {

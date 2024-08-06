@@ -6,6 +6,7 @@ import {
 } from "./query";
 import {
   ArticlesDataType,
+  CategoriesDataType,
   LocaleCode,
   Locales,
   SingleArticleDataType,
@@ -74,7 +75,11 @@ export async function getSingleArticleData({
   return data;
 }
 
-export async function getCategoriesData({ locale }: { locale: LocaleCode }) {
+export async function getCategoriesData({
+  locale,
+}: {
+  locale: LocaleCode;
+}): Promise<CategoriesDataType> {
   const variables = {
     locale,
   };

@@ -68,7 +68,7 @@ type SingleArticle = {
       data: {
         attributes: {
           slug: string;
-          locale: string;
+          locale: LocaleCode;
         };
       }[];
     };
@@ -115,9 +115,20 @@ type SingleArticle = {
   };
 };
 
-export type Category = {
+type Category = {
   attributes: {
     name: string;
+    metaDescription: string;
+    localizations: {
+      data: [
+        {
+          attributes: {
+            name: string;
+            locale: LocaleCode;
+          };
+        }
+      ];
+    };
   };
 };
 
@@ -137,6 +148,12 @@ export type ArticlesDataType = {
 export type SingleArticleDataType = {
   articles: {
     data: SingleArticle[];
+  };
+};
+
+export type CategoriesDataType = {
+  categories: {
+    data: Category[];
   };
 };
 

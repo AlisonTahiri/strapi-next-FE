@@ -28,9 +28,7 @@ export default function RootLayout({
   return (
     <html lang={params.lang}>
       <body className={inter.className}>
-        <Nav lang={params.lang} />
-        {/* Div below compensate for nav height */}
-        <div className="h-[72px]" />
+        {/* <Nav lang={params.lang} /> */}
         {children}
       </body>
     </html>

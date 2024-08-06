@@ -126,6 +126,15 @@ query GetCategories ($locale: I18NLocaleCode) {
     data {
       attributes {
         name
+        metaDescription
+        localizations {
+          data {
+            attributes {
+              name
+              locale
+            }
+          }
+        }
       }
     }
   }
