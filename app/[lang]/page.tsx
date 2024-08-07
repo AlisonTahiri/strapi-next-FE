@@ -1,4 +1,4 @@
-import { getLocalesData } from "./apiService/apiService";
+import { getLocalesData, getMainPageData } from "./apiService/apiService";
 import { LocaleCode } from "./apiService/types";
 import BlogCards from "./components/BlogCards";
 import { LocalesLinks } from "./components/LanguagesPicker";
@@ -11,7 +11,10 @@ export default async function Home({
 }) {
   const pageSize = Number(process.env.HOMEPAGE_SIZE) || 9;
 
-  const localesData = await getLocalesData();
+  const localesData = await getLocalesData(); // This is already called in getStaticParams and Memoized, so no need for Promise.all.
+  const mainPageData = await getMainPageData({ locale: lang });
+
+  const { title } = mainPageData.mainPage.data.attributes;
 
   const localesLinks: LocalesLinks = localesData.i18NLocales.data
     .filter((locale) => !(locale.attributes.code === lang)) // remove current locale from link
@@ -27,9 +30,7 @@ export default async function Home({
       <main className="prose  max-w-none">
         <section>
           <div className="container max-w-6xl p-6 mx-auto space-y-6 sm:space-y-12">
-            <h1>
-              {lang === "en" ? "Welcome to Blogy!" : "Miresevini ne Blogy!"}
-            </h1>
+            <h1>{title}</h1>
             <BlogCards page={1} pageSize={pageSize} locale={lang} />
           </div>
         </section>

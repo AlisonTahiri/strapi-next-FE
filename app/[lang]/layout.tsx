@@ -3,20 +3,30 @@ import { Inter } from "next/font/google";
 import "../globals.css";
 import Nav from "./components/Nav";
 import { LocaleCode } from "./apiService/types";
-import { getLocalesData } from "./apiService/apiService";
+import { getLocalesData, getMainPageData } from "./apiService/apiService";
 
 const inter = Inter({ subsets: ["latin"] });
 
 const url = process.env.URL || (process.env.VERCEL_URL as string);
 
-export const metadata: Metadata = {
-  title: {
-    template: "%s | Blogy",
-    default: "The Blogy Blog",
-  },
-  description: "This is the description of the Blogy Blog.",
-  metadataBase: new URL(url),
-};
+export async function generateMetadata({
+  params: { lang },
+}: {
+  params: { lang: LocaleCode };
+}): Promise<Metadata> {
+  const mainPageData = await getMainPageData({ locale: lang });
+
+  const { metaDescription, metaTitle } = mainPageData.mainPage.data.attributes;
+
+  return {
+    title: {
+      template: "%s | Blogy",
+      default: metaTitle,
+    },
+    description: metaDescription,
+    metadataBase: new URL(url),
+  };
+}
 
 export default function RootLayout({
   children,

@@ -2,6 +2,7 @@ import {
   articlesQuery,
   categoriesQuery,
   localesQuery,
+  mainPageQuery,
   singleArticlesQuery,
 } from "./query";
 import {
@@ -9,6 +10,7 @@ import {
   CategoriesDataType,
   LocaleCode,
   Locales,
+  MainPageDataType,
   SingleArticleDataType,
 } from "./types";
 
@@ -28,8 +30,6 @@ export async function getArticlesData({
   pageSize?: number;
   locale: LocaleCode;
 }): Promise<ArticlesDataType> {
-  // await new Promise((resolve) => setTimeout(resolve, 3000));
-  // console.log("Fetching articles....");
   const { data } = await fetch(GRAPHQL_API_URL, {
     method: "POST",
     headers: {
@@ -57,8 +57,7 @@ export async function getSingleArticleData({
     slug,
     locale: lang,
   };
-  // await new Promise((resolve) => setTimeout(resolve, 3000));
-  // console.log("Fetching article details....");
+
   const { data } = await fetch(GRAPHQL_API_URL, {
     method: "POST",
     headers: {
@@ -83,8 +82,7 @@ export async function getCategoriesData({
   const variables = {
     locale,
   };
-  // await new Promise((resolve) => setTimeout(resolve, 3000));
-  // console.log("Fetching categories....");
+
   const { data } = await fetch(GRAPHQL_API_URL, {
     method: "POST",
     headers: {
@@ -102,8 +100,6 @@ export async function getCategoriesData({
 }
 
 export async function getLocalesData(): Promise<Locales> {
-  // await new Promise((resolve) => setTimeout(resolve, 3000));
-  // console.log("Fetching categories....");
   const { data } = await fetch(GRAPHQL_API_URL, {
     method: "POST",
     headers: {
@@ -112,6 +108,30 @@ export async function getLocalesData(): Promise<Locales> {
     },
     body: JSON.stringify({
       query: localesQuery,
+    }),
+    next: { revalidate: 60 },
+  }).then((res) => res.json());
+
+  return data;
+}
+
+export async function getMainPageData({
+  locale,
+}: {
+  locale: LocaleCode;
+}): Promise<MainPageDataType> {
+  const variables = {
+    locale,
+  };
+  const { data } = await fetch(GRAPHQL_API_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `bearer ${STRAPI_TOKEN}`,
+    },
+    body: JSON.stringify({
+      query: mainPageQuery,
+      variables,
     }),
     next: { revalidate: 60 },
   }).then((res) => res.json());

@@ -1,6 +1,10 @@
 import React from "react";
 import BlogCards from "../components/BlogCards";
-import { getArticlesData, getLocalesData } from "../apiService/apiService";
+import {
+  getArticlesData,
+  getLocalesData,
+  getMainPageData,
+} from "../apiService/apiService";
 import { LocaleCode } from "../apiService/types";
 import Nav from "../components/Nav";
 import { LocalesLinks } from "../components/LanguagesPicker";
@@ -13,6 +17,9 @@ export default async function HomePage({
   params: { page: string; lang: LocaleCode };
 }) {
   const localesData = await getLocalesData();
+  const mainPageData = await getMainPageData({ locale: lang });
+
+  const { title } = mainPageData.mainPage.data.attributes;
 
   const localesLinks: LocalesLinks = localesData.i18NLocales.data
     .filter((locale) => !(locale.attributes.code === lang)) // remove current locale from link
@@ -25,12 +32,10 @@ export default async function HomePage({
     <>
       <Nav lang={lang} localesLinks={localesLinks} />
 
-      <main className="prose  max-w-none">
+      <main className="prose max-w-none">
         <section>
           <div className="container max-w-6xl p-6 mx-auto space-y-6 sm:space-y-12">
-            <h1>
-              {lang === "en" ? "Welcome to Blogy!" : "Miresevini ne Blogy!"}
-            </h1>
+            <h1>{title}</h1>
             <BlogCards page={Number(page)} pageSize={pageSize} locale={lang} />
           </div>
         </section>

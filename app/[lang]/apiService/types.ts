@@ -170,3 +170,15 @@ export type Locales = {
     }[];
   };
 };
+
+export type MainPageDataType = {
+  mainPage: {
+    data: {
+      attributes: {
+        title: string;
+        metaTitle: string;
+        metaDescription: string;
+      };
+    };
+  };
+};

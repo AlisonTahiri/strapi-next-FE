@@ -153,4 +153,23 @@ query GetLocales {
   }
 }`;
 
-export { articlesQuery, singleArticlesQuery, categoriesQuery, localesQuery };
+const mainPageQuery = `#graphql
+query GetMainPageData ($locale: I18NLocaleCode) {
+  mainPage (locale: $locale) {
+    data {
+      attributes {
+        title
+        metaTitle
+        metaDescription
+      }
+    }
+  }
+}`;
+
+export {
+  articlesQuery,
+  singleArticlesQuery,
+  categoriesQuery,
+  localesQuery,
+  mainPageQuery,
+};
